@@ -6,7 +6,7 @@ import { replyToMessage } from '../utils/slack/reply-to-message.js';
 import { getPollResults } from '../utils/lunch/get-poll-results.js';
 import { parseLunchParticipantsMessage, parseLunchPollActiveMessage, parseLunchPollClosedMessage } from '../constants/messages.js';
 
-const POLL_DURATION_MINUTES = 2;
+const POLL_DURATION_MINUTES = 3;
 
 export const lunchHandler = async function (req, res) {
     const request = req.body;

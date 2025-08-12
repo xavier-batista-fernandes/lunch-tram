@@ -6,12 +6,12 @@ export const parseLunchPollActiveMessage = (meal, minutes) =>
 
 export const parseLunchPollClosedMessage = (meal, count) => {
     let message = `*The lunch poll has ended.*\n\n` + `Dona Eugénia said she was making *\`${meal}\`*.\n\n`;
-    message += count >= 1 ? `And ${count} ${count > 1 ? 'people' : 'person'} showed up hungry. :yum:` : `But no one is hungry. :cryingketnipz:`;
+    message += count >= 1 ? `And ${count} ${count > 1 ? 'people' : 'person'} showed up hungry. :yum:` : `But no one was hungry. :cryingketnipz:`;
     return message;
 };
 
 export const parseLunchParticipantsMessage = (participants) => {
-    let message = `*Here's a list of the ${participants.length > 1 ? 's' : ''} who hopped on the tram.*`;
+    let message = `*Here\'s who joined the lunch tram:*`;
     participants.forEach((user) => (message += `\n- <@${user}>`));
     return message;
 };
