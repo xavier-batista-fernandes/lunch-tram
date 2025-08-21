@@ -14,7 +14,7 @@ export const lunchHandler = async function (req, res) {
     console.log(`\n[/lunch] ${request.user_name} started a lunch poll.`);
 
     // Agglomerate the request details.
-    const emoji = '+';
+    const emoji = 'knife_fork_plate';
     const requestDetails = {
         requester_user: request.user_name,
         channel_id: request.channel_id,
