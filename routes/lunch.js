@@ -16,6 +16,8 @@ export const lunchHandler = async function (req, res) {
     const meal = request.text;
     console.log(`\n${LOGS_PREFIX} ${request.user_name} started a lunch poll.`);
 
+    console.log(`${LOGS_PREFIX} Request entries:  ${Object.entries(request)}`);
+
     // Agglomerate the request details.
     const emoji = 'knife_fork_plate';
     const requestDetails = {
@@ -26,11 +28,7 @@ export const lunchHandler = async function (req, res) {
     };
 
     if (!meal || meal.trim() === '') {
-        return res
-            .status(200)
-            .send(
-                "Please specify what's for lunch. \nExample: `/lunch Bacalhau com Natas`"
-            );
+        return res.status(200).send("Please specify what's for lunch. \nExample: `/lunch Bacalhau com Natas`");
     }
 
     // Request meets the format.
@@ -49,19 +47,12 @@ export const lunchHandler = async function (req, res) {
         // Schedule a callback to evaluate the poll results.
         timeout = setTimeout(
             async () => {
-                const { participantsCount, participantsList } =
-                    await getPollResults(requestDetails);
-                const message = parseLunchPollClosedMessage(
-                    meal,
-                    participantsCount
-                );
+                const { participantsCount, participantsList } = await getPollResults(requestDetails);
+                const message = parseLunchPollClosedMessage(meal, participantsCount);
                 await updateMessage(requestDetails, message);
 
                 if (participantsCount > 0) {
-                    await replyToMessage(
-                        requestDetails,
-                        parseLunchParticipantsMessage(participantsList)
-                    );
+                    await replyToMessage(requestDetails, parseLunchParticipantsMessage(participantsList));
                     await replyToMessage(
                         requestDetails,
                         `*_Don't forget to put money in the jar!_* :monopoly-go-to-jail:`
