@@ -1,17 +1,20 @@
-// TODO: Allow the requester to delete the message if they want to cancel the poll
-
 import { createMessage } from '../utils/slack/create-message.js';
 import { updateMessage } from '../utils/slack/update-message.js';
 import { replyToMessage } from '../utils/slack/reply-to-message.js';
 import { getPollResults } from '../utils/lunch/get-poll-results.js';
-import { parseLunchParticipantsMessage, parseLunchPollActiveMessage, parseLunchPollClosedMessage } from '../constants/messages.js';
+import {
+    parseLunchParticipantsMessage,
+    parseLunchPollActiveMessage,
+    parseLunchPollClosedMessage,
+} from '../constants/messages.js';
 
+const LOGS_PREFIX = '\x1b[1;35m[Single Meal Lunch]\x1b[0m';
 const POLL_DURATION_MINUTES = 10;
 
 export const lunchHandler = async function (req, res) {
     const request = req.body;
     const meal = request.text;
-    console.log(`\n[/lunch] ${request.user_name} started a lunch poll.`);
+    console.log(`\n${LOGS_PREFIX} ${request.user_name} started a lunch poll.`);
 
     // Agglomerate the request details.
     const emoji = 'knife_fork_plate';
@@ -23,7 +26,11 @@ export const lunchHandler = async function (req, res) {
     };
 
     if (!meal || meal.trim() === '') {
-        return res.status(200).send("Please specify what's for lunch. \nExample: `/lunch Bacalhau com Natas`");
+        return res
+            .status(200)
+            .send(
+                "Please specify what's for lunch. \nExample: `/lunch Bacalhau com Natas`"
+            );
     }
 
     // Request meets the format.
@@ -42,18 +49,28 @@ export const lunchHandler = async function (req, res) {
         // Schedule a callback to evaluate the poll results.
         timeout = setTimeout(
             async () => {
-                const { participantsCount, participantsList } = await getPollResults(requestDetails);
-                const message = parseLunchPollClosedMessage(meal, participantsCount);
+                const { participantsCount, participantsList } =
+                    await getPollResults(requestDetails);
+                const message = parseLunchPollClosedMessage(
+                    meal,
+                    participantsCount
+                );
                 await updateMessage(requestDetails, message);
 
                 if (participantsCount > 0) {
-                    await replyToMessage(requestDetails, parseLunchParticipantsMessage(participantsList));
-                    await replyToMessage(requestDetails, `*_Don't forget to put money in the jar!_* :monopoly-go-to-jail:`);
+                    await replyToMessage(
+                        requestDetails,
+                        parseLunchParticipantsMessage(participantsList)
+                    );
+                    await replyToMessage(
+                        requestDetails,
+                        `*_Don't forget to put money in the jar!_* :monopoly-go-to-jail:`
+                    );
                 }
 
                 clearInterval(interval);
             },
-            POLL_DURATION_MINUTES * 60 * 1000,
+            POLL_DURATION_MINUTES * 60 * 1000
         );
 
         // Create a recurring updater to change the message every minute.
