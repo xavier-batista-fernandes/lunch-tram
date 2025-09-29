@@ -8,8 +8,12 @@ import {
     parseLunchPollClosedMessage,
 } from '../constants/messages.js';
 
+import { PrismaClient } from '../generated/prisma/index.js';
+import { addParticipantsToLunch, createLunchInDb } from '../utils/lunch/add-user-to-poll.js';
+
+const prisma = new PrismaClient();
 const LOGS_PREFIX = '\x1b[1;35m[Single Meal Lunch]\x1b[0m';
-const POLL_DURATION_MINUTES = 10;
+const POLL_DURATION_MINUTES = 1;
 
 export const lunchHandler = async function (req, res) {
     const request = req.body;
@@ -30,6 +34,9 @@ export const lunchHandler = async function (req, res) {
     if (!meal || meal.trim() === '') {
         return res.status(200).send("Please specify what's for lunch. \nExample: `/lunch Bacalhau com Natas`");
     }
+
+    // Save the lunch request to the database
+    const lunch = createLunchInDb(meal);
 
     // Request meets the format.
     // Reply to Slack to acknowledge the request and avoid timeout.
@@ -52,6 +59,7 @@ export const lunchHandler = async function (req, res) {
                 await updateMessage(requestDetails, message);
 
                 if (participantsCount > 0) {
+                    addParticipantsToLunch(participantsList, lunch.id);
                     await replyToMessage(requestDetails, parseLunchParticipantsMessage(participantsList));
                     await replyToMessage(
                         requestDetails,
