@@ -1,4 +1,4 @@
-import { getReactions } from '../slack/reactions/get-reactions.js';
+import { getReactions } from './slack/reactions/get-reactions.js';
 
 export async function getPollResults({ channel_id, thread_id, emoji }) {
     const reactions = await getReactions(channel_id, thread_id);
@@ -11,6 +11,7 @@ export async function getPollResults({ channel_id, thread_id, emoji }) {
     const participantsCount = details?.count || 0;
     const participantsList = details?.users || [];
 
+    console.log('[getPollResults] Got results:', participantsCount, participantsList);
     return {
         participantsCount,
         participantsList,

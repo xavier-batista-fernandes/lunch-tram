@@ -1,8 +1,9 @@
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
-import bodyParser from 'body-parser';
+import { devHandler } from './routes/dev.js';
+import { lunchMultipleHandler } from './routes/lunch-multiple.js';
 import { lunchHandler } from './routes/lunch.js';
-import { lunch2Handler } from './routes/lunch2.js';
 
 dotenv.config();
 
@@ -15,8 +16,9 @@ app.listen(process.env.PORT, () => {
 });
 
 app.post('/lunch', lunchHandler);
-app.post('/lunch-2', lunch2Handler);
+app.post('/lunch-multiple', lunchMultipleHandler);
+app.post('/dev', devHandler);
 
 app.get('/', (req, res) => {
-    res.send('Hello world!');
+    res.send("I'm alive!");
 });

@@ -1,12 +1,12 @@
-import { createMessage } from '../utils/slack/create-message.js';
-import { updateMessage } from '../utils/slack/update-message.js';
-import { replyToMessage } from '../utils/slack/reply-to-message.js';
-import { getPollResults } from '../utils/lunch/get-poll-results.js';
 import {
     parseLunchParticipantsMessage,
     parseLunchPollActiveMessage,
     parseLunchPollClosedMessage,
 } from '../constants/messages.js';
+import { getPollResults } from '../utils/get-poll-results.js';
+import { createMessage } from '../utils/slack/create-message.js';
+import { replyToMessage } from '../utils/slack/reply-to-message.js';
+import { updateMessage } from '../utils/slack/update-message.js';
 
 const LOGS_PREFIX = '\x1b[1;35m[Single Meal Lunch]\x1b[0m';
 const POLL_DURATION_MINUTES = 10;
@@ -14,7 +14,9 @@ const POLL_DURATION_MINUTES = 10;
 export const lunchHandler = async function (req, res) {
     const request = req.body;
     const meal = request.text;
-    console.log(`\n${LOGS_PREFIX} ${request.user_name} started a lunch poll.`);
+    console.log(
+        `\n${LOGS_PREFIX} ${request.user_name} started a lunch poll with input: \x1b[32m${request.text}\x1b[0m.`
+    );
 
     console.log(`${LOGS_PREFIX} Request entries:  ${Object.entries(request)}`);
 
