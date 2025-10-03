@@ -8,7 +8,7 @@ import { replyToMessage } from '../utils/slack/reply-to-message.js';
 import { updateMessage } from '../utils/slack/update-message.js';
 
 const LOGS_PREFIX = '\x1b[1;35m[Multiple Meals Lunch]\x1b[0m';
-const POLL_DURATION_MINUTES = 0.2;
+const POLL_DURATION_MINUTES = 10;
 
 export const lunchMultipleHandler = async function (req, res) {
     const request = req.body;
