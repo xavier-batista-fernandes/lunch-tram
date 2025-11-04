@@ -15,6 +15,6 @@ export function getInvalidInputMessage() {
         ':info1: *Please provide at least one valid meal option.*\n\n' +
         'Each option should be written as \`<meal description> <meal emoji>\`.\n' +
         'Separate multiple options with commas.\n\n' +
-        '_*Example*: /lunch-multiple Spaghetti :spaghetti:, Green Salad :green_salad:, Fruit :grapes:_'
+        '_*Example*: /lunch Spaghetti :spaghetti:, Green Salad :green_salad:, Fruit :grapes:_'
     );
 }

@@ -1,15 +1,17 @@
 export function parsePollActiveMessage(options, minutes) {
-    let message =
-        `Our beloved *Dona Eugénia* :eugenia-is-the-best: is cooking lunch! <!channel>\n\n` +
-        `Today there's multiple options:\n\n`;
+    let message = `Our beloved *Dona Eugénia* :eugenia-is-the-best: is cooking lunch! <!channel>\n\n`;
+    message += options.length > 1 ? `Today there are multiple options:\n\n` : "Here is today's meal:\n\n";
 
     options.forEach(({ meal, emoji }, index) => {
         message += `> *${index + 1}.* ${emoji} — \`${meal}\`\n`;
     });
 
     message +=
-        `\nParticipate by reacting with the option's emojis! \n\n` +
-        `*This message will implode in ${minutes} minute${minutes > 1 ? 's' : ''}.* :froschi-explosion:`;
+        options.length > 1
+            ? `\nParticipate by reacting with the option's emojis! \n\n`
+            : `\nReact with the meal's emoji to participate! \n\n`;
+
+    message += `*This message will implode in ${minutes} minute${minutes > 1 ? 's' : ''}.* :froschi-explosion:`;
 
     return message;
 }

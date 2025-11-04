@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { devHandler } from './routes/dev.js';
 import { lunchMultipleHandler } from './routes/lunch-multiple.js';
-import { lunchHandler } from './routes/lunch.js';
 
 dotenv.config();
 
@@ -15,8 +14,7 @@ app.listen(process.env.PORT, () => {
     console.log(`Server started at port ${process.env.PORT}.`);
 });
 
-app.post('/lunch', lunchHandler);
-app.post('/lunch-multiple', lunchMultipleHandler);
+app.post('/lunch', lunchMultipleHandler);
 app.post('/dev', devHandler);
 
 app.get('/', (req, res) => {
