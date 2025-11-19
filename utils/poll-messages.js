@@ -44,7 +44,7 @@ export function parseClosingMessage(hasParticipants) {
         'The recipe book stays closed, waiting for the next hungry souls. 📖',
     ];
 
-    const idx = crypto.randomInt(0, withVotesEndings.length);
+    const idx = crypto.randomInt(0, withoutVotesEndings.length);
     const variant = withoutVotesEndings[idx];
     return `:info1: *The lunch poll has ended.*\n\n${variant}\n\nMore lunch options will be available next time! 🍽️`;
 }
