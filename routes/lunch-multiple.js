@@ -1,5 +1,5 @@
 import { getInvalidInputMessage, parseMeals } from '../utils/parse-meals.js';
-import { parsePollActiveMessage, parsePollClosedMessage } from '../utils/poll-messages.js';
+import { parseClosingMessage, parseOpeningMessage } from '../utils/poll-messages.js';
 import { createMessage } from '../utils/slack/create-message.js';
 import { addReaction } from '../utils/slack/reactions/add-reaction.js';
 import { getReactions } from '../utils/slack/reactions/get-reactions.js';
@@ -31,14 +31,14 @@ export const lunchMultipleHandler = async function (req, res) {
 
     // 1. Create poll message
     let remainingMinutes = POLL_DURATION_MINUTES;
-    await createMessage(requestDetails, parsePollActiveMessage(options, POLL_DURATION_MINUTES));
+    await createMessage(requestDetails, parseOpeningMessage(options, POLL_DURATION_MINUTES));
 
     // 2. Add reactions (asynchronously)
     options.forEach(({ emoji }) => addReaction(requestDetails, emoji));
     const messageUpdater = setInterval(async () => {
         remainingMinutes -= 1;
         if (remainingMinutes <= 0) return;
-        await updateMessage(requestDetails, parsePollActiveMessage(options, remainingMinutes));
+        await updateMessage(requestDetails, parseOpeningMessage(options, remainingMinutes));
     }, 1000 * 60);
 
     // 3. Close poll after duration
@@ -55,7 +55,7 @@ export const lunchMultipleHandler = async function (req, res) {
             const hasParticipants = reactions.length !== 0;
 
             // Update poll message
-            await updateMessage(requestDetails, parsePollClosedMessage(hasParticipants));
+            await updateMessage(requestDetails, parseClosingMessage(hasParticipants));
 
             // Build participant summary per meal
             if (!hasParticipants) return;

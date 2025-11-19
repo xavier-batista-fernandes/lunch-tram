@@ -1,9 +1,11 @@
-export function parsePollActiveMessage(options, minutes) {
+import crypto from 'crypto';
+
+export function parseOpeningMessage(options, minutes) {
     let message = `Our beloved *Dona Eugénia* :eugenia-is-the-best: is cooking lunch! <!channel>\n\n`;
     message += options.length > 1 ? `Today there are multiple options:\n\n` : "Here is today's meal:\n\n";
 
     options.forEach(({ meal, emoji }, index) => {
-        message += `> *${index + 1}.* ${emoji} — \`${meal}\`\n`;
+        message += `> ${emoji} — \`${meal}\`\n`;
     });
 
     message +=
@@ -16,7 +18,7 @@ export function parsePollActiveMessage(options, minutes) {
     return message;
 }
 
-export function parsePollClosedMessage(hasParticipants) {
+export function parseClosingMessage(hasParticipants) {
     if (hasParticipants) {
         const withVotesEndings = [
             '*Dona Eugénia* is already sharpening her knives. 🔪',
@@ -27,7 +29,8 @@ export function parsePollClosedMessage(hasParticipants) {
             'The pots are clinking, and *Dona Eugénia* is stirring with love. 🥘',
             'Whispers in the kitchen say *Dona Eugénia* is crafting something legendary. 👩‍🍳',
         ];
-        const variant = withVotesEndings[Math.floor(Math.random() * withVotesEndings.length)];
+        const idx = crypto.randomInt(0, withVotesEndings.length);
+        const variant = withVotesEndings[idx];
         return `:info1: *The lunch poll has ended.*\n\n${variant}\n\nSee you soon in the breakfast room! 🍽️`;
     }
 
@@ -40,6 +43,8 @@ export function parsePollClosedMessage(hasParticipants) {
         'No clinking forks today, just a quiet dining room. 🍴',
         'The recipe book stays closed, waiting for the next hungry souls. 📖',
     ];
-    const variant = withoutVotesEndings[Math.floor(Math.random() * withoutVotesEndings.length)];
+
+    const idx = crypto.randomInt(0, withVotesEndings.length);
+    const variant = withoutVotesEndings[idx];
     return `:info1: *The lunch poll has ended.*\n\n${variant}\n\nMore lunch options will be available next time! 🍽️`;
 }
