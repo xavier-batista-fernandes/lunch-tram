@@ -19,6 +19,8 @@ export const lunchMultipleHandler = async function (req, res) {
     isLocked = true;
 
     const request = req.body;
+    const headers = req.headers;
+    console.log(`${LOGS_PREFIX} Request headers:  ${JSON.stringify(headers)}`);
     console.log(
         `\n${LOGS_PREFIX} ${request.user_name} started a multiple meals lunch poll with input: \x1b[32m${request.text}\x1b[0m.`
     );
