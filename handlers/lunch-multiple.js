@@ -9,18 +9,29 @@ import { updateMessage } from '../utils/slack/update-message.js';
 
 const LOGS_PREFIX = '\x1b[1;35m[Multiple Meals Lunch]\x1b[0m';
 const POLL_DURATION_MINUTES = 10;
+let isLocked = false;
 
 export const lunchMultipleHandler = async function (req, res) {
+    if (isLocked) {
+        console.log(`\n${LOGS_PREFIX} Command is currently locked.`);
+        return res.status(200).json({response_type: 'ephemeral', text: 'You can only have one lunch poll at a time.'});
+    }
+    isLocked = true;
+
     const request = req.body;
     console.log(
         `\n${LOGS_PREFIX} ${request.user_name} started a multiple meals lunch poll with input: \x1b[32m${request.text}\x1b[0m.`
     );
 
     const options = parseMeals(request.text);
-    if (options.length === 0) return res.status(200).send(getInvalidInputMessage());
+    if (options.length === 0)  {
+        isLocked = false;
+        return res.status(200).send(getInvalidInputMessage());
+    }
 
     // Acknowledge Slack
     res.status(200).send();
+    
 
     const requestDetails = {
         user_name: request.user_name,
@@ -82,6 +93,8 @@ export const lunchMultipleHandler = async function (req, res) {
 
             text += ":monopoly-go-to-jail: *_Don't forget to put money in the jar!_* :monopoly-go-to-jail:";
             replyToMessage(requestDetails, text);
+            isLocked = false;
+            console.log(`\n${LOGS_PREFIX} Poll closed and results posted.`);
         },
         POLL_DURATION_MINUTES * 60 * 1000
     );

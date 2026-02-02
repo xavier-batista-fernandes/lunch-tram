@@ -1,8 +1,8 @@
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
-import { devHandler } from './routes/dev.js';
-import { lunchMultipleHandler } from './routes/lunch-multiple.js';
+import { devHandler } from './handlers/dev.js';
+import { lunchMultipleHandler } from './handlers/lunch-multiple.js';
 
 dotenv.config();
 
