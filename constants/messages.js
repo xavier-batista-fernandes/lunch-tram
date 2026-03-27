@@ -7,7 +7,10 @@ export const parseLunchPollActiveMessage = (meal, minutes) =>
 
 export const parseLunchPollClosedMessage = (meal, count) => {
     let message = `*The lunch poll has ended.*\n\n` + `Dona Eugénia said she was making *\`${meal}\`*.\n\n`;
-    message += count >= 1 ? `And *\`${count}\`* ${count > 1 ? 'people' : 'person'} showed up hungry. :yum:` : `But no one was hungry. :cryingketnipz:`;
+    message +=
+        count >= 1
+            ? `And *\`${count}\`* ${count > 1 ? 'people' : 'person'} showed up hungry. :yum:`
+            : `But no one was hungry. :cryingketnipz:`;
     return message;
 };
 

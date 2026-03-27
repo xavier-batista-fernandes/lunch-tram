@@ -4,9 +4,9 @@ import { AppStack } from '../lib/app-stack';
 
 const app = new cdk.App();
 
-// console.log('Deploying on the following environment:');
-// console.log(`Account: ${process.env.CDK_DEFAULT_ACCOUNT}`);
-// console.log(`Region: ${process.env.CDK_DEFAULT_REGION}`);
+console.log('Deploying on the following environment:');
+console.log(`Account: ${process.env.CDK_DEFAULT_ACCOUNT}`);
+console.log(`Region: ${process.env.CDK_DEFAULT_REGION}`);
 
 new AppStack(app, 'LunchTramStack', {
     /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */

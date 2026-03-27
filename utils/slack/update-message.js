@@ -22,7 +22,7 @@ export async function updateMessage(requestDetails, new_text) {
             ts: requestDetails.thread_id,
             text: new_text,
         },
-        { headers },
+        { headers }
     );
 
     if (!response.data.ok) {

@@ -21,7 +21,5 @@ export async function getUsersWhoReacted(channel_id, thread_id, emoji) {
         throw new Error(`[getUsersWhoReacted] Slack error: ${response.data.error}`);
     }
     const reactions = response.data.message.reactions || [];
-    return reactions
-        .filter((reaction) => reaction.name === emoji)
-        .map((reaction) => reaction.users);
+    return reactions.filter((reaction) => reaction.name === emoji).map((reaction) => reaction.users);
 }

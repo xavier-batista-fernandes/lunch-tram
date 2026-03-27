@@ -21,7 +21,7 @@ export async function replyToMessage(requestDetails, message) {
             thread_ts: requestDetails.thread_id,
             text: message,
         },
-        { headers },
+        { headers }
     );
 
     if (!response.data.ok) {

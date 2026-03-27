@@ -1,6 +1,16 @@
+# Ignore the .env file containing environment variables
 .env
+
+# Ignore node_modules directory
 node_modules
+
+# Ignore CDK output and staging directories
+.cdk.staging
+cdk.out
+
+# Ignore IDE and OS specific files
 .idea/
 .DS_Store
 
+# Include .vscode directory for Visual Studio Code settings, extensions, and launch configurations
 !.vscode

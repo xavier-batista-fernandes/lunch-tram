@@ -24,7 +24,7 @@ export async function createMessage(requestDetails, text) {
             channel: requestDetails.channel_id,
             text,
         },
-        { headers },
+        { headers }
     );
 
     if (!response.data.ok) {
